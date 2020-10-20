@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-if</title>
+</head>
+<body>
+    <div id='app'>
+        <div v-if='isLogin'>
+            已登录
+        </div>
+        <ul>
+            <li>
+               v-for 数组
+            </li>
+            <ul>
+                <li v-for='item in datas'>
+                    {{ item }}
+                </li>
+            </ul>
+
+
+        </ul>
+        <ul>
+            <li>
+                v-for 对象数组
+             </li>
+             <ul>
+                <li v-for='humman in people'>
+                    {{ humman.name }}
+                </li>
+             </ul>
+            
+
+        </ul>
+        <hr>   
+        <p>
+            {{ message }}
+            <input v-model="message" type="text" />
+            <hr><br>
+            {{ messagelazy }}
+            <input v-model.lazy="messagelazy" type="text" />
+        </p>
+        <hr>
+        <h3>多选框绑定</h3>
+        <input type="checkbox"  id="isTrue" v-model="isTrue">
+        <label for="isTrue">
+            {{ isTrue }}
+        </label>
+        <hr>
+        <input type="checkbox"  id="checkname1" value="1" v-model="checkname">
+        <label for="checkname1">
+            checkname1
+        </label>
+        <input type="checkbox"  id="checkname2"  value="2"  v-model="checkname">
+        <label for="checkname2">
+            checkname2
+        </label>
+        <input type="checkbox"  id="checkname3"  value="3"  v-model="checkname">
+        <label for="checkname3">
+            checkname3
+        </label>
+        <p>{{checkname}}</p>
+        <hr>
+        <h3>单选框绑定</h3>
+        <p>
+            <input v-model="sex" type="radio" id="one" value="男" />
+            <label for="one">男</label>
+
+            <input v-model="sex" type="radio" id="two" value="女" />
+            <label for="two">女</label>
+            <span>您的选择是:&nbsp;{{ sex }}</span>
+        </p>
+        <hr>
+        <h3>v bind 标签属性绑定</h3>
+        <img v-bind:src="imgSrc" width="200" alt="属性绑定演示">
+        
+    </div>
+
+</body>
+<script src="/asserts/js/vue.js"></script>
+<script>
+
+var vm = new Vue({
+    el: '#app',
+    data: {
+        isLogin:true,
+        datas:[1,2,3,4,5,6,7,8,9,10,11,12],
+        people:[
+            {name:'cjl',age:'38'},
+            {name:'yjm',age:'44'},
+            {name:'ldm',age:'31'},
+            {name:'wj',age:'40'}
+        ],
+        message:"数据绑定",
+        messagelazy:"数据绑定懒加载",
+        isTrue:true,
+        checkname:[],
+        sex:"",
+        imgSrc:"https://blogimages.jspang.com/blogtouxiang1.jpg"
+
+    },
+});
+
+</script>
+</html>
