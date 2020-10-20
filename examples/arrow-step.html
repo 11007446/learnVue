@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://necolas.github.io/normalize.css/5.0.0/normalize.css" />
+    <style>
+
+        .cssNav li {
+            padding: 0px 20px 0 40px;
+            line-height: 40px;
+            background: grey;
+            display: inline-block;
+            color: #fff;
+            position: relative;
+        }
+
+        .cssNav li:after {
+            content: '';
+            display: block;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid grey;
+            position: absolute;
+            right: -20px;
+            top: 0;
+            z-index: 10;
+        }
+
+        .cssNav li:before {
+            content: '';
+            display: block;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid #fff;
+            position: absolute;
+            left: 0px;
+            top: 0;
+        }
+
+        .cssNav li:first-child {
+            border-radius: 4px 0 0 4px;
+            /* padding-left: 25px; */
+        }
+
+        .cssNav li:last-child,
+        .cssNavEnd {
+            border-radius: 0px 4px 4px 0px;
+            padding-right: 25px;
+        }
+
+        .cssNav li:first-child:before {
+            display: none;
+        }
+
+        .cssNav li:last-child:after,
+        .cssNavEnd:after {
+            display: none;
+        }
+
+        .cssNav li.gone {
+            background-color: #DDDDDD;
+            color: #000000;
+        }
+
+        .cssNav li.gone:after {
+            border-left-color: #DDDDDD;
+        }
+
+        .cssNav li.active {
+            background-color: green;
+
+        }
+
+        .cssNav li.active:after {
+            border-left-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="app">
+        <h1>箭头导航菜单Vue演示</h1>
+        <ul class="cssNav">
+            <li v-for="(item, index) in menuslist" :key="index" :class="{active:(menuindex_checked === index)}" class="bigfont">
+                {{ item.menuname }}
+            </li>
+        </ul>
+        <button @click="menuchange">点击随机选中菜单</button>
+    </div>
+    <div> 
+            <ul >
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+                <li>1</li>
+            </ul>
+            
+        </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+        menuslist: [
+            {menuname:"菜单1",menuurl:""},
+            {menuname:"菜单2",menuurl:""},
+            {menuname:"菜单3",menuurl:""},
+            {menuname:"菜单4",menuurl:""},
+            {menuname:"菜单5",menuurl:""},
+            {menuname:"菜单6",menuurl:""}
+        ],
+        menuindex_checked:"nonechecked"
+
+    },
+    methods: {
+
+        menuchange:function(event){
+            
+            this.menuindex_checked = Math.floor(Math.random() * (this.menuslist.length - 0)) + 0;
+
+        },
+        ischose:function(index){
+                console.log(index);
+                return this.menuindex_checked === index;
+        }
+
+    }
+
+});
+
+
+    
+</script>
+
+</html>

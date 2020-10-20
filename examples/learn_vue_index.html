@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .mydiv {
+            width: 400px;
+            height: 200px;
+            background-color: grey;
+
+
+        }
+
+        .mydiv2 {
+            width: 800px;
+            height: 200px;
+            background-color: blue;
+
+        }
+
+        .mydiv3 {
+            width: 800px;
+            height: 200px;
+
+
+        }
+
+        .red {
+            background-color: red;
+        }
+
+
+        .cssNav li {
+            padding: 0px 20px 0 40px;
+            line-height: 40px;
+            background: grey;
+            display: inline-block;
+            color: #fff;
+            position: relative;
+        }
+
+        .cssNav li:after {
+            content: '';
+            display: block;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid grey;
+            position: absolute;
+            right: -20px;
+            top: 0;
+            z-index: 10;
+        }
+
+        .cssNav li:before {
+            content: '';
+            display: block;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 20px solid #fff;
+            position: absolute;
+            left: 0px;
+            top: 0;
+        }
+
+        .cssNav li:first-child {
+            border-radius: 4px 0 0 4px;
+            /* padding-left: 25px; */
+        }
+
+        .cssNav li:last-child,
+        .cssNavEnd {
+            border-radius: 0px 4px 4px 0px;
+            padding-right: 25px;
+        }
+
+        .cssNav li:first-child:before {
+            display: none;
+        }
+
+        .cssNav li:last-child:after,
+        .cssNavEnd:after {
+            display: none;
+        }
+
+        .cssNav li.gone {
+            background-color: #DDDDDD;
+            color: #000000;
+        }
+
+        .cssNav li.gone:after {
+            border-left-color: #DDDDDD;
+        }
+
+        .cssNav li.active {
+            background-color: green;
+
+        }
+
+        .cssNav li.active:after {
+            border-left-color: green;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Vue 练习</h2>
+        <div id="app-1" v-if="showflag">
+            <h2 v-once>{{ title }} 后续不再更新</h2>
+
+            <p>原始值: "{{ title }}"</p>
+            <p>计算后 倒转值 : "{{ reversedTitle }}" <input type="text" v-model="title" v-on:input="loginput"></p>
+
+            <p>
+                超链接展示
+                <a :href="link">超链接绑定</a>
+                <span v-html="mylink"></span>
+                <span v-text="mylink"></span>
+            </p>
+            <button @click="changetitle" value="这是按钮">修改title</button>  <button @click="reversedTitle">倒转title</button>
+            <div :class="{red:classflag}" class="mydiv" v-if="!showflag">1</div>
+            <div :class="{red:checktitle}" :style="divStyle" v-if="!showflag" class="mydiv">2</div>
+            <div :class="appclass" >3</div>
+            <input type="text" v-model="divWidth">
+            <input type="text" v-model="divHeight">
+            <button @click="changeClassFlag">切换div类</button>
+            <button @click="changeClassFlag">切换div类</button>
+
+        </div>
+
+
+        <div id="app-2">
+            <h2>{{ title }}</h2>
+            <div v-show="showflag">
+                <div>
+                    <h3>1</h3>
+                    <h3>2</h3>
+                </div>
+            </div>
+            <button @click="toggleshowflag">切换标志位</button>
+            <button @click="changeapp1title">修改APP1的title</button>
+
+        </div>
+
+        <div id="appnav">
+            <h1>箭头导航菜单Vue演示</h1>
+            <ul class="cssNav">
+                <li v-for="(item,index) in menuslist" :key="index" :class="{active:(menuindex_checked === index)}"
+                    class="bigfont">
+                    {{ item.menuname }}
+                </li>
+            </ul>
+            <button @click="menuchange">点击随机选中菜单</button>
+            <ul>
+                <li v-for="(value,key,index) in person" :key="index">
+                    {{ key }} = {{ value }}
+                </li>
+            </ul>
+
+        </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    var vm = new Vue({
+        el: '#app-1',
+        data: {
+            showflag: true,
+            appclass: "mydiv",
+            title: "this is title",
+            name: "3333",
+            age: "11",
+            link: "http://bing.com",
+            mylink: "<a href=http://bing.com>mylink to bing</a>",
+            classflag: true,
+            divWidth: "400px",
+            divHeight: "200px",
+        }
+
+
+        ,
+        computed: {
+            reversedTitle: function () {
+                return this.title.split('').reverse().join('')
+            },
+
+            checktitle: function () {
+                return this.title.length % 2 > 0
+            },
+            
+            divStyle: function () {
+                return {
+                    width: this.divWidth,
+                    border: "1px solid",
+                    height: this.divHeight,
+                }
+
+            }
+        },
+        watch: {
+            title: function (oldValue, newValue) {
+                console.log("title change, oldValue:" + oldValue + " newvalue:" + newValue);
+            }
+        },
+        methods: {
+            reversedTitle:function(){
+                this.title = this.title.split('').reverse().join('')
+            },
+            changetitle:function(){
+                
+                this.title = this.title.toUpperCase();
+
+            },
+            changeClassFlag: function (event) {
+
+                this.classflag = !this.classflag
+
+            },
+            loginput: function (event) {
+
+                // console.log("this.title: " + this.title);
+                // console.log("this.name: " + this.name);
+                // console.log("this.age: " + this.age);
+                // console.log("this.loginput: " + this.loginput);
+                // console.log("event.target.value: " + event.target.value);
+
+            }
+        }
+    });
+
+    var vm2 = new Vue({
+        el: "#app-2",
+        data: {
+            title: "这是2号实例",
+            showflag: true
+
+        },
+        methods: {
+            toggleshowflag: function (event) {
+                this.showflag = !this.showflag;
+                console.log(this.showflag)
+            },
+            changeapp1title:function(){
+                vm.title = vm.title.toLowerCase();
+
+            }
+
+        }
+
+    });
+
+    var vm3 = new Vue({
+        el: '#appnav',
+        data: {
+            menuslist: [
+                {menuname:"菜单1",menuurl:""},
+                {menuname:"菜单2",menuurl:""},
+                {menuname:"菜单3",menuurl:""},
+                {menuname:"菜单4",menuurl:""},
+                {menuname:"菜单5",menuurl:""},
+                {menuname:"菜单6",menuurl:""}
+            ],
+            menuindex_checked:"nonechecked",
+            person:{
+                name:"蔡靖亮",
+                sex:"男",
+                age:"38"
+            }
+
+        },
+        methods: {
+
+            menuchange:function(event){
+                this.menuindex_checked = Math.floor(Math.random() * (this.menuslist.length - 0)) + 0;
+            },
+            ischose:function(index){
+                    console.log(index);
+                    return this.menuindex_checked === index;
+            }
+
+        }
+
+    });
+</script>
+
+</html>
